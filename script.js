@@ -16,8 +16,15 @@
             .draggable({
                 inertia: false,
                 // keep the element within the area of it's parent
+                snap: {
+                    targets: [
+                      interact.createSnapGrid({ x: 30, y: 30 })
+                    ],
+                    range: Infinity,
+                    relativePoints: [ { x: 0, y: 0 } ]
+                  },
                 restrict: {
-                    restriction: 'body',
+                    restriction: '.layout-area',
                     endOnly: true,
                     elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
                 },
@@ -42,7 +49,7 @@
                     target.style.width = overlayWidth + 'px';
                     target.style.height = overlayHeight + 'px';
                    
-                    console.log(isPaneCollided);
+                    console.log(isPaneCollided, event);
                     console.log('onmove=>',event.target.clientWidth, event.target.clientHeight);
                 },
                 onend: (event) => {
@@ -52,7 +59,7 @@
                         isPaneCollided = false;
                      } 
                      //last location is wrong, so we are getting 2nd last value
-                     moveLocation = currentLocation[currentLocation.length -2];
+                     moveLocation = currentLocation[currentLocation.length -2] ? currentLocation[currentLocation.length -2] : lastLocation;
 
                      //change c-pane-resizing size
                      event.target.style.width = moveLocation.rect.width + 'px';
@@ -71,8 +78,10 @@
                 overlap: 0.01,
                 ondragenter: (event) => {
                     isPaneCollided = true;
+                    event.relatedTarget.style.backgroundColor = 'rgba(255,0,0,0.3)';
                 },
                 ondragleave: (event) => {
                     isPaneCollided = false;
+                    event.relatedTarget.style.backgroundColor = 'rgba(0,0,0,0.3)';
                 }
             });

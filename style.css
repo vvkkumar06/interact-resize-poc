@@ -1,5 +1,13 @@
 /* Styles go here */
-body{
+
+  body {
+    overflow: hidden;
+  }
+  .layout-area{
+    width: 900px;
+    height: 500px;
+    display: block;
+    margin:0 auto;
     position:relative;
   }
   .c-pane-container {
